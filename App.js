@@ -1,34 +1,61 @@
-// const root = document.getElementById("root");
-// const heading = document.createElement("h1");
-// heading.innerHTML = "Welcome To React";
-// root.appendChild(heading);
+import React, { lazy, Suspense } from "react";
+import ReactDOM from "react-dom/client";
+import Header from "./src/components/Header";
+import Body from "./src/components/Body";
+import Contact from "./src/components/Contact";
+import Error from "./src/components/Error";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import RestaurantMenu from "./src/components/RestaurantMenu";
+import Shimmer from "./src/components/Shimmer";
 
-/*
-<div id="parent">
-<div id='child'>
-<h1>Iam a Child 1</h1>
-<h1>Iam a Child 2</h1>
-</div>
+const App = () => {
+  return (
+    <div id="app-layout" className="box-border">
+      <Header />
+      <Outlet />
+    </div>
+  );
+};
 
-</div>
-*/
-
-const parent = React.createElement("div", { id: "parent" }, [
-  React.createElement("div", { id: "child" }, [
-    React.createElement("h1", {}, "Iam a Child 1"),
-    React.createElement("h1", {}, "Iam a Child 2"),
-  ]),
-  React.createElement("div", { id: "child2" }, [
-    React.createElement("h1", {}, "Iam a Child 1"),
-    React.createElement("h1", {}, "Iam a Child 2"),
-  ]),
+const Grocery = lazy(() => import("./src/components/Grocery.js"));
+const About = lazy(() => import("./src/components/About"));
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/about",
+        element: (
+          <Suspense>
+            <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/restaurant/:resId",
+        element: <RestaurantMenu />,
+      },
+      {
+        path: "/grocery",
+        element: (
+          <Suspense fallback={<h2>Loading...</h2>}>
+            <Grocery />
+          </Suspense>
+        ),
+      },
+    ],
+  },
 ]);
 
-const heading = React.createElement(
-  "h1",
-  { id: "heading", className: "main-heading" },
-  "Hello React! 🤗"
-);
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(parent);
-
+root.render(<RouterProvider router={appRouter} />);
