@@ -15,7 +15,7 @@ const RestaurantCard = (props) => {
       <div className="px-2 py-3">
         <h5 className="font-semibold mb-1">{name}</h5>
 
-        <p className="text-[14px] text-gray-600 font-semibold mb-1">
+        <p className="text-[14px] text-gray-600 font-semibold mb-1 overflow-hidden">
           {cuisines.join(",")}
         </p>
         <p className="text-[18px] mb-1">
@@ -29,5 +29,7 @@ const RestaurantCard = (props) => {
     </li>
   );
 };
+
+
 
 export default RestaurantCard;

@@ -1,28 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { LOGO_URL } from "../../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../../utils/useOnlineStatus";
-
+import UserContext from "../../utils/UserContext";
 const Header = () => {
-  const [isLogged, setLogged] = useState(true);
+  const [isLogged, setLogged] = useState(false);
   const onlineStatus = useOnlineStatus();
-  useEffect(() => {
-    console.log("useEffect");
-  }, []);
+
   const btnName = isLogged ? "Logout" : "Login";
+  const { user, setUserName } = useContext(UserContext);
 
   return (
     <nav
       id="header"
-      className="bg-red-400 flex justify-between items-center py-2 shadow-xl shadow-red-200"
+      className="bg-red-400 flex justify-between items-center py-2 shadow-xl shadow-red-200 px-16"
     >
       <Link to="/">
-        <div id="nav-logo" className="bg-white rounded-[50%] p-2 w-[55px] ml-4">
+        <div id="nav-logo" className="bg-white rounded-[50%] p-2 w-[55px]">
           <img src={LOGO_URL} className="" alt="logo" />
         </div>
       </Link>
 
-      <ul className="flex justify-evenly w-[50%] items-center text-white">
+      <ul className="flex justify-evenly w-[70%] items-center text-white">
         <li className="text-sm">Online Status {onlineStatus ? "✅" : "❌"}</li>
         <li className="text-sm">
           <Link to="/">Home</Link>
@@ -37,6 +36,9 @@ const Header = () => {
           <Link to="/grocery">Grocery</Link>
         </li>
         <li className="text-sm">Cart</li>
+        <li className="text-lg font-semibold">
+          <span>👤 {user}</span>
+        </li>
         <button
           className={
             isLogged
@@ -45,6 +47,7 @@ const Header = () => {
           }
           onClick={() => {
             setLogged(!isLogged);
+            setUserName(isLogged ? "Guest" : "Srujan Kandakurthi");
           }}
         >
           {btnName}

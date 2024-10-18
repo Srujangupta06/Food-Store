@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./src/components/Header";
 import Body from "./src/components/Body";
@@ -6,14 +6,19 @@ import Contact from "./src/components/Contact";
 import Error from "./src/components/Error";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import RestaurantMenu from "./src/components/RestaurantMenu";
-import Shimmer from "./src/components/Shimmer";
-
+import UserContext from "./utils/UserContext.js";
 const App = () => {
+  //Authentication
+  const [userName, setUserName] = useState("Guest");
   return (
-    <div id="app-layout" className="box-border">
-      <Header />
-      <Outlet />
-    </div>
+    // Guest
+    <UserContext.Provider value={{ user: userName, setUserName }}>
+      {/*Srujan Kandakurthi */}
+      <div id="app-layout" className="box-border">
+        <Header />
+        <Outlet />
+      </div>
+    </UserContext.Provider>
   );
 };
 

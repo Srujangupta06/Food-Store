@@ -16,21 +16,23 @@ const Body = () => {
 
     const data = await fetch(RESTAURANT_DATA_URL);
     const jsonData = await data.json();
+    // console.log(jsonData);
     const restaurants =
-      jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants;
+    console.log(restaurants);
     setRestaurantsList(restaurants);
     setFilteredRestaurants(restaurants);
-    console.log(restaurants);
   }
   useEffect(() => {
     fetchRestaurantsData();
   }, []);
+
   if (onlineStatus === false) {
     return <h1>Looks like you are offline!</h1>;
   }
 
-  return listOfRestaurants.length === 0 ? (
+  return !listOfRestaurants || listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
     <div
@@ -78,11 +80,11 @@ const Body = () => {
       <ul className="flex flex-wrap gap-4 w-[80%] mt-12">
         {filteredRestaurants.map((restaurantInfo) => {
           return (
-            <Link to={"/restaurant/" + restaurantInfo.info.id}>
-              <RestaurantCard
-                restaurantInfo={restaurantInfo.info}
-                key={restaurantInfo.info.id}
-              />
+            <Link
+              to={"/restaurant/" + restaurantInfo.info.id}
+              key={restaurantInfo?.info?.id}
+            >
+              <RestaurantCard restaurantInfo={restaurantInfo.info} />
             </Link>
           );
         })}

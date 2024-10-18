@@ -13,7 +13,7 @@ class UserClass extends Component {
   }
   render() {
     const { login, avatar_url } = this.props.userInfo;
-    console.log(this.props.userInfo);
+    // console.log(this.props.userInfo);
 
     return (
       <div className="border-2 w-72 flex px-4 py-2 justify-evenly rounded-lg">
